@@ -12,6 +12,7 @@ export const plugins = [
   new CopyPlugin({
     patterns: [
       { from: './src/settings.html', to: './' },
+      { from: './src/pause-indicator.ico', to: './' },
     ],
   }),
 ];
