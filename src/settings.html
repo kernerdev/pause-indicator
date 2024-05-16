@@ -188,8 +188,8 @@
       await saveSchedule(scheduleIndex)
     }
 
-    async function deletePrioritySchedule() {
-      await saveSchedules([],7);
+    async function deleteSchedule(scheduleIndex) {
+      await saveSchedules([],scheduleIndex);
     }
 
     async function saveSchedules(schedulingsJson,scheduleIndex){
@@ -203,6 +203,7 @@
 				body: JSON.stringify(schedulingsJson)
 			});
 			const content = await rawResponse.text();
+      location.reload();
 		}
 
     async function loadData() {
