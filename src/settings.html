@@ -140,6 +140,10 @@
       const selectedMessage = type === "Message" ? "selected" : "";
       const selectedCountUp = type === "CountUp" ? "selected" : "";
       const selectedCountDown = type === "CountDown" ? "selected" : "";
+
+      const moveUpButtonDisabled = entryIndex === 0 ? "disabled" : "";
+      const moveDownButtonDisabled = (schedules[scheduleIndex].length <= 1 || entryIndex === schedules[scheduleIndex].length-1) ? "disabled" : "";
+
       const html = `
       <div id="${scheduleIndex}_schedule_${entryIndex}">
       <label for="${fromId}">Mettől:</label>
@@ -155,10 +159,32 @@
       <label for="${messageId}">Üzenet:</label>
       <input type="text" id="${messageId}" name="${messageId}" value="${message}" />
       <button onclick="deleteScheduleRow(${scheduleIndex},${entryIndex})">Sor törlése</button>
+      <button onclick="moveScheduleUp(${scheduleIndex},${entryIndex})" ${moveUpButtonDisabled}>fel</button>
+      <button onclick="moveScheduleDown(${scheduleIndex},${entryIndex})" ${moveDownButtonDisabled}>le</button> 
       <br /><br />
       </div>
     `;
       return html;
+    }
+
+    async function moveScheduleUp(scheduleIndex,entryIndex) {
+      if(entryIndex == 0) {
+        return;
+      }
+      const temp = schedules[scheduleIndex][entryIndex];
+      schedules[scheduleIndex][entryIndex] = schedules[scheduleIndex][entryIndex-1];
+      schedules[scheduleIndex][entryIndex-1] = temp;
+      await saveSchedules(schedules[scheduleIndex],scheduleIndex);
+    }
+
+    async function moveScheduleDown(scheduleIndex,entryIndex) {
+      if(schedules[scheduleIndex].length <= 1 || entryIndex == schedules[scheduleIndex].length-1) {
+        return;
+      }
+      const temp = schedules[scheduleIndex][entryIndex];
+      schedules[scheduleIndex][entryIndex] = schedules[scheduleIndex][entryIndex+1];
+      schedules[scheduleIndex][entryIndex+1] = temp;
+      await saveSchedules(schedules[scheduleIndex],scheduleIndex);
     }
 
 

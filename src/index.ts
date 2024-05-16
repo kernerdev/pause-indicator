@@ -152,24 +152,12 @@ function sendScheduleToFrontend(scheduleData:any,date:Date) {
       const fromDateTime = Date.parse("2019-01-01T"+scheduleData.fromTime+":00");
       const currentDateTime = Date.parse("2019-01-01T"+currentTimeAsString);
       
-      console.log("-----")
-      const asd1 = new Date()
-      asd1.setTime(fromDateTime);
-      console.log(asd1);
-
-      
-      const asd2 = new Date()
-      asd2.setTime(currentDateTime);
-      console.log(asd2);
-
-
       const difference = (currentDateTime - fromDateTime);
       const diffDate = new Date();
 
-
       diffDate.setTime(difference);
       diffDate.setHours(diffDate.getHours()-1)
-      console.log(diffDate);
+      //console.log(diffDate);
       
       //diffDate.setMinutes(diffDate.getMinutes()+1);
       //diffDate.setSeconds(diffDate.getSeconds()-1);
@@ -179,7 +167,7 @@ function sendScheduleToFrontend(scheduleData:any,date:Date) {
       const seconds = String(diffDate.getSeconds()).padStart(2, '0');
 
       const ret = `${hours}:${minute}:${seconds}`;
-      console.log(ret)
+      //console.log(ret)
 
       mainWindow.webContents.send("schedule-change", ret);
       if(scheduleData.message !== undefined){
