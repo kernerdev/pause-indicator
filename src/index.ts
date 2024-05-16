@@ -127,6 +127,7 @@ function sendScheduleToFrontend(scheduleData:any,date:Date) {
       const diffDate = new Date();
       diffDate.setTime(difference);
       diffDate.setHours(diffDate.getHours()-1);
+      diffDate.setMinutes(diffDate.getMinutes()-1);
       diffDate.setSeconds(diffDate.getSeconds()+1);
 
       const hours = String(diffDate.getHours()).padStart(2, '0');
@@ -148,14 +149,17 @@ function sendScheduleToFrontend(scheduleData:any,date:Date) {
 
       const currentTimeAsString = `${currenthours}:${currentminute}:${currentseconds}`;
 
-      const toDateTime = Date.parse("2019-01-01T"+scheduleData.toTime+":59");
+      const fromDateTime = Date.parse("2019-01-01T"+scheduleData.fromTime+":00");
       const currentDateTime = Date.parse("2019-01-01T"+currentTimeAsString);
-      const difference = (currentDateTime - toDateTime);
+      
+
+      const difference = (currentDateTime - fromDateTime);
       const diffDate = new Date();
       diffDate.setTime(difference);
-      diffDate.setHours(diffDate.getHours()-1);
-      diffDate.setSeconds(diffDate.getSeconds()-1);
-
+      
+      //diffDate.setMinutes(diffDate.getMinutes()+1);
+      //diffDate.setSeconds(diffDate.getSeconds()-1);
+      console.log(diffDate);
       const hours = String(diffDate.getHours()).padStart(2, '0');
       const minute = String(diffDate.getMinutes()).padStart(2, '0');
       const seconds = String(diffDate.getSeconds()).padStart(2, '0');

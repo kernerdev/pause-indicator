@@ -33,7 +33,7 @@ export class ScheduleHandler {
 
 	public setSchedule(index:number, data:Schedule[]) {
 		this.schedules[index].setData(data);
-		
+
 	}
 
   private convertToMinute(schedule_time:any) {
@@ -44,7 +44,7 @@ export class ScheduleHandler {
 	public checkSchedule(scheduleIndex:number, currentTimeInMinutes:number) {
 		const scheduleData = this.getShedule(scheduleIndex).data;
 		if(scheduleData !== undefined && scheduleData !== undefined){
-			for (let i = 0; i < scheduleData.length; i++) {
+			for (let i = scheduleData.length-1; i >= 0; i--) {
 				const schedule_from_minute = this.convertToMinute(scheduleData[i].fromTime);
 				const schedule_to_minute = this.convertToMinute(scheduleData[i].toTime);
 				if (
