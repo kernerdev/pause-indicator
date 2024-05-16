@@ -1,0 +1,17 @@
+#clock{
+	text-align: center;
+	font-size: 20em;
+	color: red;
+}
+
+#currentState{
+	text-align: center;
+	font-size: 20em;
+	color: red;
+}
+
+#message{
+	text-align: center;
+	font-size: 20em;
+	color: red;
+}

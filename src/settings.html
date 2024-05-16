@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Pause-Indicator - Settings</title>
+  </head>
+  <body>
+    <div><h1>Szünetkezelő beállítások</h1></div>
+    <div>
+      <h3>Elsődleges</h3>
+      <div id="7_schedule">
+
+      </div>
+      <button onclick="addNewSchedule(7)">Új sor beszúrása</button>
+      <button onclick="saveSchedule(7)">Mentés</button>
+      <button onclick="deleteSchedule(7)">Minden elsődleges elem törlése</button>
+
+    </div>
+    <div>
+      <hr>
+      <h3>Alapértelmezett</h3>
+      <div id="8_schedule">
+
+      </div>
+      <button onclick="addNewSchedule(8)">Új sor beszúrása</button>
+      <button onclick="saveSchedule(8)">Mentés</button>
+      <button onclick="deleteSchedule(8)">Minden alapértelmezett elem törlése</button>
+    </div>
+    <div>
+      <hr>
+      <h3>Heti lebontás</h3>
+      
+      <h4>Hétfő</h4>
+      <div id="0_schedule">
+
+      </div>
+      <button onclick="addNewSchedule(0)">Új sor beszúrása</button>
+      <button onclick="saveSchedule(0)">Mentés</button>
+      <button onclick="deleteSchedule(0)">Minden elem törlése</button>
+
+      <hr>
+      <h4>Kedd</h4>
+      <div id="1_schedule">
+
+      </div>
+      <button onclick="addNewSchedule(1)">Új sor beszúrása</button>
+      <button onclick="saveSchedule(1)">Mentés</button>
+      <button onclick="deleteSchedule(1)">Minden elem törlése</button>
+
+      <hr>
+      <h4>Szerda</h4>
+      <div id="2_schedule">
+
+      </div>
+      <button onclick="addNewSchedule(2)">Új sor beszúrása</button>
+      <button onclick="saveSchedule(2)">Mentés</button>
+      <button onclick="deleteSchedule(2)">Minden elem törlése</button>
+
+      <hr>
+      <h4>Csütörtök</h4>
+      <div id="3_schedule">
+
+      </div>
+      <button onclick="addNewSchedule(3)">Új sor beszúrása</button>
+      <button onclick="saveSchedule(3)">Mentés</button>
+      <button onclick="deleteSchedule(3)">Minden elem törlése</button>
+
+      <hr>
+      <h4>Péntek</h4>
+      <div id="4_schedule">
+
+      </div>
+      <button onclick="addNewSchedule(4)">Új sor beszúrása</button>
+      <button onclick="saveSchedule(4)">Mentés</button>
+      <button onclick="deleteSchedule(4)">Minden elem törlése</button>
+      
+      <hr>
+      <h4>Szombat</h4>
+      <div id="5_schedule">
+
+      </div>
+      <button onclick="addNewSchedule(5)">Új sor beszúrása</button>
+      <button onclick="saveSchedule(5)">Mentés</button>
+      <button onclick="deleteSchedule(5)">Minden elem törlése</button>
+      
+      <hr>
+      <h4>Vasárnap</h4>
+      <div id="6_schedule">
+
+      </div>
+      <button onclick="addNewSchedule(6)">Új sor beszúrása</button>
+      <button onclick="saveSchedule(6)">Mentés</button>
+      <button onclick="deleteSchedule(6)">Minden elem törlése</button>
+      
+    </div>
+  </body>
+  <script>
+
+    const schedules = [];
+    async function loadSchedulings(){
+      for (let index = 0; index < 9; index++) {
+        const schedule = await fetch("/schedule/"+index);
+        const scheduleJson = await schedule.json();
+        schedules.push(scheduleJson);
+      }
+      loadSchedule(7);
+      loadSchedule(8);
+      loadSchedule(0);
+      loadSchedule(1);
+      loadSchedule(2);
+      loadSchedule(3);
+      loadSchedule(4);
+      loadSchedule(5);
+      loadSchedule(6);
+    }
+
+    function addNewSchedule(scheduleIndex){
+      const fromDates = document.querySelectorAll("[id^='"+scheduleIndex+"_FromDate_']");
+      const html = createNewSchedulingEntryHTML(scheduleIndex,fromDates.length,"00:00","23:59","Message","");
+      const baseElement = document.getElementById(scheduleIndex+"_schedule");
+      baseElement.innerHTML = baseElement.innerHTML  + html;
+    }
+
+    function loadSchedule(scheduleIndex){
+      const schedule = schedules[scheduleIndex];
+      for (let index = 0; index < schedule.length; index++) {
+        const element = schedule[index];
+        const html = createNewSchedulingEntryHTML(scheduleIndex,index,element.fromTime,element.toTime,element.type,element.message);
+        const baseElement = document.getElementById(scheduleIndex+"_schedule");
+        baseElement.innerHTML = baseElement.innerHTML  + html;
+      }
+    }
+
+    function createNewSchedulingEntryHTML(scheduleIndex, entryIndex, fromDate,toDate,type,message){
+      const fromId = scheduleIndex+"_FromDate_"+entryIndex;
+      const toId = scheduleIndex+"_ToDate_"+entryIndex;
+      const typeId = scheduleIndex+"_ScheduleType_"+entryIndex;
+      const messageId = scheduleIndex+"_Message_"+entryIndex;
+
+      const selectedMessage = type === "Message" ? "selected" : "";
+      const selectedCountUp = type === "CountUp" ? "selected" : "";
+      const selectedCountDown = type === "CountDown" ? "selected" : "";
+      const html = `
+      <div id="${scheduleIndex}_schedule_${entryIndex}">
+      <label for="${fromId}">Mettől:</label>
+      <input type="text" id="${fromId}" name="${fromId}" value="${fromDate}" />
+      <label for="${toId}">Meddig:</label>
+      <input type="text" id="${toId}" name="${toId}" value="${toDate}" />
+      <label for="${typeId}">Típus:</label>
+      <select id="${typeId}" name="${typeId}" required>
+        <option value="Message" ${selectedMessage}>Csak üzenet</option>
+        <option value="CountUp" ${selectedCountUp}>Stopper</option>
+        <option value="CountDown" ${selectedCountDown}>Visszaszámlálás</option>
+      </select>
+      <label for="${messageId}">Üzenet:</label>
+      <input type="text" id="${messageId}" name="${messageId}" value="${message}" />
+      <button onclick="deleteScheduleRow(${scheduleIndex},${entryIndex})">Sor törlése</button>
+      <br /><br />
+      </div>
+    `;
+      return html;
+    }
+
+
+    async function saveSchedule(scheduleIndex) {
+      const fromDates = document.querySelectorAll("[id^='"+scheduleIndex+"_FromDate_']");
+      const toDates = document.querySelectorAll("[id^='"+scheduleIndex+"_ToDate_']");
+      const scheduleTypes = document.querySelectorAll("[id^='"+scheduleIndex+"_ScheduleType_']");
+      const messages = document.querySelectorAll("[id^='"+scheduleIndex+"_Message_']");
+      
+      let schedules_to_send = [];
+      for (let index = 0; index < fromDates.length; index++) {
+        const schedule = {
+          "fromTime":fromDates[index].value,
+          "toTime":toDates[index].value,
+          "type":scheduleTypes[index].value,
+          "message":messages[index].value
+        }
+        schedules_to_send.push(schedule);
+      }
+
+      await saveSchedules(schedules_to_send,scheduleIndex);
+    }
+
+    async function deleteScheduleRow(scheduleIndex,rowIndex) {
+      const element = document.getElementById(scheduleIndex+"_schedule_"+rowIndex);
+      element.remove();
+      await saveSchedule(scheduleIndex)
+    }
+
+    async function deletePrioritySchedule() {
+      await saveSchedules([],7);
+    }
+
+    async function saveSchedules(schedulingsJson,scheduleIndex){
+			
+			const rawResponse = await fetch('/schedule/'+scheduleIndex, {
+				method: 'POST',
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(schedulingsJson)
+			});
+			const content = await rawResponse.text();
+		}
+
+    async function loadData() {
+      await loadSchedulings()
+      // logs [{ name: 'Joker'}, { name: 'Batman' }]
+    }
+
+    loadData();
+  </script>
+</html>
