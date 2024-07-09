@@ -33,9 +33,9 @@ const createWindow = (): void => {
 
   // and load the index.html of the app.
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
-  //mainWindow.maximize();
+  mainWindow.maximize();
   // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+  //mainWindow.webContents.openDevTools();
   if(mainWindow !== undefined) {
     mainWindow.webContents.send("schedule-change", "alma");
     setMainWindowForServer(mainWindow)
