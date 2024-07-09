@@ -13,4 +13,8 @@ contextBridge.exposeInMainWorld("electronAPI", {
     ipcRenderer.on("clock-font-size-change", (_event, value) => callback(value)),
   onMessageFontSizeChange: (callback:any) =>
     ipcRenderer.on("message-font-size-change", (_event, value) => callback(value)),
+  onFontColorsChange: (callback:any) =>
+    ipcRenderer.on("font-color-change", (_event, value) => callback(value)),
+
+
 });

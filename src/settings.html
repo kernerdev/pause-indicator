@@ -174,7 +174,7 @@
 
     function addNewSchedule(scheduleIndex){
       const fromDates = document.querySelectorAll("[id^='"+scheduleIndex+"_FromDate_']");
-      const html = createNewSchedulingEntryHTML(scheduleIndex,fromDates.length,"00:00","23:59","Message","");
+      const html = createNewSchedulingEntryHTML(scheduleIndex,fromDates.length,"00:00","23:59","Message","", "#ffffff", "#ff0000","#ffffff");
       const baseElement = document.getElementById(scheduleIndex+"_schedule");
       baseElement.innerHTML = baseElement.innerHTML  + html;
     }
@@ -183,17 +183,32 @@
       const schedule = schedules[scheduleIndex];
       for (let index = 0; index < schedule.length; index++) {
         const element = schedule[index];
-        const html = createNewSchedulingEntryHTML(scheduleIndex,index,element.fromTime,element.toTime,element.type,element.message);
+        const html = createNewSchedulingEntryHTML(scheduleIndex,index,element.fromTime,element.toTime,element.type,element.message, element.clockColor,element.counterColor,element.messageColor);
         const baseElement = document.getElementById(scheduleIndex+"_schedule");
         baseElement.innerHTML = baseElement.innerHTML  + html;
       }
     }
 
-    function createNewSchedulingEntryHTML(scheduleIndex, entryIndex, fromDate,toDate,type,message){
+    function createNewSchedulingEntryHTML(scheduleIndex, entryIndex, fromDate,toDate,type,message, clockColor, counterColor, messageColor){
       const fromId = scheduleIndex+"_FromDate_"+entryIndex;
       const toId = scheduleIndex+"_ToDate_"+entryIndex;
       const typeId = scheduleIndex+"_ScheduleType_"+entryIndex;
       const messageId = scheduleIndex+"_Message_"+entryIndex;
+
+      const clockColorId = scheduleIndex+"_ClockColor_"+entryIndex;
+      const counterColorId = scheduleIndex+"_CounterColor_"+entryIndex;
+      const messageColorId = scheduleIndex+"_MessageColor_"+entryIndex;
+      console.log(clockColor)
+      if (clockColor === undefined) {
+        clockColor = "#ffffff";
+      }
+      if (counterColor === undefined) {
+        counterColor = "#ff0000";
+      }
+      if (messageColor === undefined) {
+        messageColor = "#ffffff";
+      }
+
 
       const selectedMessage = type === "Message" ? "selected" : "";
       const selectedCountUp = type === "CountUp" ? "selected" : "";
@@ -216,6 +231,12 @@
       </select>
       <label for="${messageId}">Üzenet:</label>
       <input type="text" id="${messageId}" name="${messageId}" value="${message}" />
+      <label for="${clockColorId}">Óra:</label>
+      <input type="color" id="${clockColorId}" name="${clockColorId}" value="${clockColor}">
+      <label for="${counterColorId}">Számláló:</label>
+      <input type="color" id="${counterColorId}" name="${counterColorId}" value="${counterColor}">
+      <label for="${messageColorId}">Üzenet:</label>
+      <input type="color" id="${messageColorId}" name="${messageColorId}" value="${messageColor}">
       <button onclick="deleteScheduleRow(${scheduleIndex},${entryIndex})">Sor törlése</button>
       <button onclick="moveScheduleUp(${scheduleIndex},${entryIndex})" ${moveUpButtonDisabled}>fel</button>
       <button onclick="moveScheduleDown(${scheduleIndex},${entryIndex})" ${moveDownButtonDisabled}>le</button> 
@@ -251,6 +272,10 @@
       const toDates = document.querySelectorAll("[id^='"+scheduleIndex+"_ToDate_']");
       const scheduleTypes = document.querySelectorAll("[id^='"+scheduleIndex+"_ScheduleType_']");
       const messages = document.querySelectorAll("[id^='"+scheduleIndex+"_Message_']");
+
+      const clockColors = document.querySelectorAll("[id^='"+scheduleIndex+"_ClockColor_']");
+      const counterColors = document.querySelectorAll("[id^='"+scheduleIndex+"_CounterColor_']");
+      const messageColors = document.querySelectorAll("[id^='"+scheduleIndex+"_MessageColor_']");
       
       let schedules_to_send = [];
       for (let index = 0; index < fromDates.length; index++) {
@@ -258,7 +283,10 @@
           "fromTime":fromDates[index].value,
           "toTime":toDates[index].value,
           "type":scheduleTypes[index].value,
-          "message":messages[index].value
+          "message":messages[index].value,
+          "clockColor":clockColors[index].value,
+          "counterColor":counterColors[index].value,
+          "messageColor":messageColors[index].value,
         }
         schedules_to_send.push(schedule);
       }

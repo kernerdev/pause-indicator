@@ -92,6 +92,16 @@ let currentMessageFontSize:any = 20;
 
 });
 
+(window as any).electronAPI.onFontColorsChange((value:any) => {
+  //console.log("onFontColorsChange",value)
+  document.getElementById("clock").style.color = value.clockColor
+  document.getElementById("currentState").style.color = value.counterColor
+  document.getElementById("message").style.color = value.messageColor
+
+});
+
+
+
 
 
 function updateStateElement(value:any) {

@@ -3,6 +3,7 @@ import { ScheduleHandler } from "./scheduleHandler";
 import bodyParser from 'body-parser';
 import { Schedule } from "./scheduleType";
 import { FontSizeHandler } from "./fontSizeHandler";
+import { BrowserWindow } from "electron";
 
 export const httpServer = express()
 
@@ -10,6 +11,7 @@ httpServer.use(bodyParser.json())
 
 const scheduleHandler = new ScheduleHandler();
 const fontSizeHandler = new FontSizeHandler();
+let mainWindow: BrowserWindow|undefined;
 
 export function checkSchedule(scheduleIndex:number, currentTimeInMinutes:number):any{
 	return scheduleHandler.checkSchedule(scheduleIndex,currentTimeInMinutes)
@@ -21,6 +23,10 @@ export function checkClockFontSize():any{
 
 export function checkMessageFontSize():any{
 	return fontSizeHandler.getMessageFontSize();
+}
+
+export function setMainWindowForServer(mainWindowParam:BrowserWindow):any{
+	mainWindow = mainWindowParam;
 }
 
 httpServer.get('/', function (req, res) {
@@ -61,6 +67,7 @@ httpServer.post('/clock-fontsize', function (req,res) {
     const fontsize:any = req.body;
 	console.log(fontsize.fontSize);
 	fontSizeHandler.setClockFontSize(fontsize)
+	mainWindow.webContents.send("clock-font-size-change", fontsize.fontSize);
 	res.send({"response:":"ok"})
 });
 
@@ -79,5 +86,6 @@ httpServer.post('/message-fontsize', function (req,res) {
     const fontsize:any = req.body;
 	console.log(fontsize.fontSize);
 	fontSizeHandler.setMessageFontSize(fontsize)
+	mainWindow.webContents.send("message-font-size-change", fontsize.fontSize);
 	res.send({"response:":"ok"})
 });
