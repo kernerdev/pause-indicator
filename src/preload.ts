@@ -9,4 +9,8 @@ contextBridge.exposeInMainWorld("electronAPI", {
     ipcRenderer.on("schedule-change", (_event, value) => callback(value)),
   onMessageChange: (callback:any) =>
     ipcRenderer.on("message-change", (_event, value) => callback(value)),
+  onClockFontSizeChange: (callback:any) =>
+    ipcRenderer.on("clock-font-size-change", (_event, value) => callback(value)),
+  onMessageFontSizeChange: (callback:any) =>
+    ipcRenderer.on("message-font-size-change", (_event, value) => callback(value)),
 });

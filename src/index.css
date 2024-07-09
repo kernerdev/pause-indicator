@@ -1,21 +1,37 @@
-body {
+html, body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 	background-color: black;
+}
+
+#outputContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 #clock{
 	text-align: center;
-	font-size: 20em;
 	color: white;
 }
 
 #currentState{
 	text-align: center;
-	font-size: 20em;
 	color: red;
 }
 
 #message{
 	text-align: center;
-	font-size: 20em;
 	color: white;
+}
+
+.output{
+	font-size: 20em;
 }

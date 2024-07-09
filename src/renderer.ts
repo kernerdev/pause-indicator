@@ -33,6 +33,9 @@ const currentStateElement = document.getElementById("currentState");
 const messageElement = document.getElementById("message");
 
 let currentState:any = undefined;
+let currentValue:any = undefined;
+let currentClockFontSize:any = 20;
+let currentMessageFontSize:any = 20;
 
 (window as any).electronAPI.onScheduleChange((value:any) => {
   if (currentState == undefined) {
@@ -48,7 +51,48 @@ let currentState:any = undefined;
 
 (window as any).electronAPI.onMessageChange((value:any) => {
   messageElement.innerHTML = value;
+  if(currentValue === undefined){
+    currentValue = value;
+  }
+  if(currentValue !== value){
+    console.log("onMessageChange",currentValue,value)
+    currentValue = value;
+    const audio = new Audio("sos.mp3");
+    audio.play();
+  }
 });
+
+
+(window as any).electronAPI.onClockFontSizeChange((value:any) => {
+  console.log("onClockFontSizeChange",value)
+  if(currentClockFontSize !== value){
+    currentClockFontSize = value;
+    var elements = document.getElementsByClassName('clock');
+
+    for (var i = 0; i < elements.length; i++) {
+      var element = elements[i];
+      (element as any).style.fontSize = value+"em";
+    }
+  }
+
+});
+
+
+(window as any).electronAPI.onMessageFontSizeChange((value:any) => {
+  console.log("onMessageFontSizeChange",value)
+  if(currentMessageFontSize !== value){
+    currentMessageFontSize = value;
+    var elements = document.getElementsByClassName('message');
+
+    for (var i = 0; i < elements.length; i++) {
+      var element = elements[i];
+      (element as any).style.fontSize = value+"em";
+    }
+  }
+
+});
+
+
 
 function updateStateElement(value:any) {
   currentStateElement.innerHTML = value;

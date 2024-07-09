@@ -13,6 +13,7 @@ export const plugins = [
     patterns: [
       { from: './src/settings.html', to: './' },
       { from: './src/pause-indicator.ico', to: './' },
+      { from: './src/sos.mp3', to: './' },
     ],
   }),
 ];

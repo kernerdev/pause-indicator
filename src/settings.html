@@ -7,6 +7,15 @@
   <body>
     <div><h1>Szünetkezelő beállítások</h1></div>
     <div>
+      <h3>Betűméret</h3>
+      <label for="ClockfontSizeInput">Óra betűméret:</label>
+      <input type="number" id="ClockfontSizeInput" name="ClockfontSizeInput" />
+      <label for="MessagefontSizeInput">Üzenet betűméret:</label>
+      <input type="number" id="MessagefontSizeInput" name="MessagefontSizeInput" />
+
+      <button onclick="saveFontSize()" >Mentés</button>
+    </div>
+    <div>
       <h3>Elsődleges</h3>
       <div id="7_schedule">
 
@@ -95,6 +104,55 @@
     </div>
   </body>
   <script>
+
+    async function saveFontSize(){
+      let fontSize = document.getElementById("ClockfontSizeInput").value;
+      let data = {
+        fontSize: fontSize
+      }
+      console.log(fontSize)
+      let rawResponse = await fetch('/clock-fontsize', {
+				method: 'POST',
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(data)
+			});
+			let content = await rawResponse.text();
+
+      fontSize = document.getElementById("MessagefontSizeInput").value;
+      data = {
+        fontSize: fontSize
+      }
+      console.log(fontSize)
+      rawResponse = await fetch('/message-fontsize', {
+				method: 'POST',
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(data)
+			});
+			content = await rawResponse.text();
+      //location.reload();
+    }
+
+    async function loadFontSize(){
+      const clockFontsize = await fetch("/clock-fontsize");
+      const clockFontsizeJson = await clockFontsize.json();
+      console.log(clockFontsizeJson)
+      if(clockFontsizeJson.fontSize !== undefined){
+        document.getElementById("ClockfontSizeInput").value = clockFontsizeJson.fontSize
+      }
+      const messageFontsize = await fetch("/message-fontsize");
+      const messageFontsizeJson = await messageFontsize.json();
+      console.log(messageFontsizeJson)
+      if(messageFontsizeJson.fontSize !== undefined){
+        document.getElementById("MessagefontSizeInput").value = messageFontsizeJson.fontSize
+      }
+    }
+
 
     const schedules = [];
     async function loadSchedulings(){
@@ -233,6 +291,7 @@
 		}
 
     async function loadData() {
+      loadFontSize()
       await loadSchedulings()
       // logs [{ name: 'Joker'}, { name: 'Batman' }]
     }
