@@ -47,7 +47,7 @@ httpServer.get('/schedule/:number', function (req,res) {
 httpServer.post('/schedule/:number', function (req,res) {
 	const scheduleIndex:number = Number.parseInt(req.params.number);
   const scheduleBody:Schedule[] = req.body;
-	console.log(scheduleBody);
+	//console.log(scheduleBody);
 	scheduleHandler.setSchedule(scheduleIndex,scheduleBody);
 	res.send({"response:":"ok"})
 });
@@ -65,7 +65,7 @@ httpServer.get('/clock-fontsize', function (req,res) {
 
 httpServer.post('/clock-fontsize', function (req,res) {
     const fontsize:any = req.body;
-	console.log(fontsize.fontSize);
+	//console.log(fontsize.fontSize);
 	fontSizeHandler.setClockFontSize(fontsize)
 	mainWindow.webContents.send("clock-font-size-change", fontsize.fontSize);
 	res.send({"response:":"ok"})
@@ -84,7 +84,7 @@ httpServer.get('/message-fontsize', function (req,res) {
 
 httpServer.post('/message-fontsize', function (req,res) {
     const fontsize:any = req.body;
-	console.log(fontsize.fontSize);
+	//console.log(fontsize.fontSize);
 	fontSizeHandler.setMessageFontSize(fontsize)
 	mainWindow.webContents.send("message-font-size-change", fontsize.fontSize);
 	res.send({"response:":"ok"})

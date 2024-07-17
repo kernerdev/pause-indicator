@@ -110,7 +110,7 @@
       let data = {
         fontSize: fontSize
       }
-      console.log(fontSize)
+      //console.log(fontSize)
       let rawResponse = await fetch('/clock-fontsize', {
 				method: 'POST',
 				headers: {
@@ -125,7 +125,7 @@
       data = {
         fontSize: fontSize
       }
-      console.log(fontSize)
+      //console.log(fontSize)
       rawResponse = await fetch('/message-fontsize', {
 				method: 'POST',
 				headers: {
@@ -141,13 +141,13 @@
     async function loadFontSize(){
       const clockFontsize = await fetch("/clock-fontsize");
       const clockFontsizeJson = await clockFontsize.json();
-      console.log(clockFontsizeJson)
+      //console.log(clockFontsizeJson)
       if(clockFontsizeJson.fontSize !== undefined){
         document.getElementById("ClockfontSizeInput").value = clockFontsizeJson.fontSize
       }
       const messageFontsize = await fetch("/message-fontsize");
       const messageFontsizeJson = await messageFontsize.json();
-      console.log(messageFontsizeJson)
+      //console.log(messageFontsizeJson)
       if(messageFontsizeJson.fontSize !== undefined){
         document.getElementById("MessagefontSizeInput").value = messageFontsizeJson.fontSize
       }
@@ -198,7 +198,7 @@
       const clockColorId = scheduleIndex+"_ClockColor_"+entryIndex;
       const counterColorId = scheduleIndex+"_CounterColor_"+entryIndex;
       const messageColorId = scheduleIndex+"_MessageColor_"+entryIndex;
-      console.log(clockColor)
+      //console.log(clockColor)
       if (clockColor === undefined) {
         clockColor = "#ffffff";
       }

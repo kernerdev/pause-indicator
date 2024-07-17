@@ -45,13 +45,31 @@ export class ScheduleHandler {
 		const scheduleData = this.getShedule(scheduleIndex).data;
 		if(scheduleData !== undefined && scheduleData !== undefined){
 			for (let i = scheduleData.length-1; i >= 0; i--) {
+				
 				const schedule_from_minute = this.convertToMinute(scheduleData[i].fromTime);
 				const schedule_to_minute = this.convertToMinute(scheduleData[i].toTime);
-				if (
-					currentTimeInMinutes >= schedule_from_minute &&
-					currentTimeInMinutes <= schedule_to_minute
-				) {
-					return scheduleData[i];
+				if(scheduleData[i].type === "CountDown"){
+
+					//console.log("***************")
+					//console.log("currentTimeInMinutes",currentTimeInMinutes)
+					//console.log("schedule_from_minute",schedule_from_minute)
+					//console.log("schedule_to_minute",schedule_to_minute)
+					if (
+						currentTimeInMinutes >= schedule_from_minute &&
+						currentTimeInMinutes < schedule_to_minute
+					) {
+						return scheduleData[i];
+					}else if (currentTimeInMinutes == schedule_to_minute) {
+						i--;
+						return scheduleData[i];
+					}
+				}else{
+					if (
+						currentTimeInMinutes >= schedule_from_minute &&
+						currentTimeInMinutes <= schedule_to_minute
+					) {
+						return scheduleData[i];
+					}
 				}
 			}
 		}

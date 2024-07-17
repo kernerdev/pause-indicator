@@ -150,6 +150,10 @@ function sendScheduleToFrontend(scheduleData:any,date:Date) {
 
       const toDateTime = Date.parse("2019-01-01T"+scheduleData.toTime+":59");
       const currentDateTime = Date.parse("2019-01-01T"+currentTimeAsString);
+      //console.log("---------CountDown")
+      //console.log("toDateTime",""+scheduleData.toTime+":59")
+      //console.log("currentDateTime",""+currentTimeAsString)
+
       const difference = (toDateTime - currentDateTime);
       const diffDate = new Date();
       diffDate.setTime(difference);
@@ -162,6 +166,7 @@ function sendScheduleToFrontend(scheduleData:any,date:Date) {
       const seconds = String(diffDate.getSeconds()).padStart(2, '0');
 
       const ret = `${hours}:${minute}:${seconds}`;
+      //console.log("diffDate",ret)
 
       mainWindow.webContents.send("schedule-change", ret);
       if(scheduleData.message !== undefined){
@@ -178,7 +183,11 @@ function sendScheduleToFrontend(scheduleData:any,date:Date) {
 
       const fromDateTime = Date.parse("2019-01-01T"+scheduleData.fromTime+":00");
       const currentDateTime = Date.parse("2019-01-01T"+currentTimeAsString);
-      
+
+      //console.log("---------CountUp")
+      //console.log("fromDateTime",""+scheduleData.fromTime+":00")
+      //console.log("currentDateTime",""+currentTimeAsString)
+
       const difference = (currentDateTime - fromDateTime);
       const diffDate = new Date();
 
@@ -194,6 +203,7 @@ function sendScheduleToFrontend(scheduleData:any,date:Date) {
       const seconds = String(diffDate.getSeconds()).padStart(2, '0');
 
       const ret = `${hours}:${minute}:${seconds}`;
+      //console.log("diffDate",ret)
       //console.log(ret)
 
       mainWindow.webContents.send("schedule-change", ret);

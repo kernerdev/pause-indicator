@@ -55,7 +55,7 @@ let currentMessageFontSize:any = 20;
     currentValue = value;
   }
   if(currentValue !== value){
-    console.log("onMessageChange",currentValue,value)
+    //console.log("onMessageChange",currentValue,value)
     currentValue = value;
     const audio = new Audio("sos.mp3");
     audio.play();
@@ -64,7 +64,7 @@ let currentMessageFontSize:any = 20;
 
 
 (window as any).electronAPI.onClockFontSizeChange((value:any) => {
-  console.log("onClockFontSizeChange",value)
+  //console.log("onClockFontSizeChange",value)
   if(currentClockFontSize !== value){
     currentClockFontSize = value;
     var elements = document.getElementsByClassName('clock');
@@ -79,7 +79,7 @@ let currentMessageFontSize:any = 20;
 
 
 (window as any).electronAPI.onMessageFontSizeChange((value:any) => {
-  console.log("onMessageFontSizeChange",value)
+  //console.log("onMessageFontSizeChange",value)
   if(currentMessageFontSize !== value){
     currentMessageFontSize = value;
     var elements = document.getElementsByClassName('message');
