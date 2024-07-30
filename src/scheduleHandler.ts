@@ -60,8 +60,8 @@ export class ScheduleHandler {
 					) {
 						return scheduleData[i];
 					}else if (currentTimeInMinutes == schedule_to_minute) {
-						i--;
-						return scheduleData[i];
+						
+						//return scheduleData[0];
 					}
 				}else{
 					if (
