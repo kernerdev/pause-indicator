@@ -18,16 +18,16 @@ html, body {
     
     
     animation-name: move-left-right;
-    animation-duration: 30s;
+    animation-duration: 60s;
     animation-iteration-count: infinite;
     position: relative;
 }
 
 @keyframes move-left-right {
     0%   {left:0px; top:0px;}
-    25%   {left:40px; top:40px;}
+    25%   {left:100px; top:100px;}
     50%   {left:0px; top:0px;}
-    75%   {left:-40px; top:-40px;}
+    75%   {left:-100px; top:-100px;}
     100% {left:0px; top:0px;}
 }
 
@@ -38,7 +38,7 @@ html, body {
 
 #currentState{
 	text-align: center;
-	color: red;
+	color: white;
 }
 
 #message{
